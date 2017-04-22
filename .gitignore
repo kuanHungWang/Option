@@ -1,3 +1,5 @@
 *.xcuserstate
 DerivedData\
 demo\ DerivedData\
+demo\demo\Assets.xcassets\
+demo\demo\Base.lproj\

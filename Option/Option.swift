@@ -350,7 +350,7 @@ public class Option{
      -  parameters:
      - arguments: the dictionary cotaining what to override.
      */
-    public func price(override arguments:[String:Any])->Double{
+    public func price(override arguments:[String:Any])->Double?{
         var type:OptionType = self.type
         if let override=arguments["type"]{
             type=override as! OptionType
@@ -375,7 +375,11 @@ public class Option{
         if let override=arguments["valueDate"]{
             valueDate=override as! Date
         }
-        return Option.vanilla(type: type, tenor: self.Expire.timeIntervalSince(valueDate), strike: strike, underlying: underlying, sigma: volatility, interestRate: interestRate)
+        let tenor = self.Expire.timeIntervalSince(valueDate)/60/60/24/365
+        if tenor>0 {
+            return Option.vanilla(type: type, tenor: tenor, strike: strike, underlying: underlying, sigma: volatility, interestRate: interestRate)
+        }
+        return nil
     }
     
     private func IV(price:Double)->Double{
